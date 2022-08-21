@@ -2,6 +2,7 @@ package com.flyhigh.flightsearch.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 /**
  * Created by Admin on 8/21/2022.
@@ -16,6 +17,20 @@ public class Flights {
     private String departure;
     private String arrival;
     private String fare;
+
+    public Flights() {
+        super();
+    }
+
+    public Flights(String id, String origin, String destination, String departure, String arrival, String fare) {
+        super();
+        this.flightId = id;
+        this.origin = origin;
+        this.destination = destination;
+        this.departure = departure;
+        this.arrival = arrival;
+        this.fare = fare;
+    }
 
     public String getFlightId() {
         return flightId;
