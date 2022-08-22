@@ -34,35 +34,30 @@ public class FlightSearchController {
     @Autowired
     private ErrorResponse errorResponse;
 
-    /*@GetMapping()
-    public ResponseEntity<List<Flights>> getAllFlights() {
-        return (ResponseEntity<List<Flights>>) flightSearchService.getAllFlights();
-    }*/
-
     @GetMapping()
-    public ResponseEntity<?> getAllFlights() {
+    public ResponseEntity<?> getAllFlights(@RequestParam(name = "sortBy", defaultValue = "flightId") String sortBy) {
         try{
-                        return new ResponseEntity<List<Flights>>(flightSearchService.getAllFlights(), HttpStatus.OK);
+            return new ResponseEntity<List<Flights>>(flightSearchService.getAllFlights(sortBy), HttpStatus.OK);
         }
         catch(Exception e){
             errorResponse.setMessage(e.getMessage());
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        //return flightSearchService.getAllFlights();
     }
 
     @GetMapping(value = "/{origin}/{destination}")
     public ResponseEntity<?> fetchRequiredFlights(
-            @PathVariable("origin")
+            @PathVariable()
             @NotBlank(message="Origin required")
             @Size(max = 3, message = "Please provide 3 digit airport code")
             @Pattern(regexp="^[a-zA-Z]*$",message="Acceptable format: a-zA-Z")
                     String origin,
-            @PathVariable("destination")
+            @PathVariable()
             @NotBlank(message="Destination required")
             @Size(max = 3, message = "Please provide 3 digit airport code")
             @Pattern(regexp="^[a-zA-Z]*$",message="Acceptable format: a-zA-Z")
-                    String destination){
+                    String destination,
+            @RequestParam(name = "sortBy",defaultValue = "xyz") String sortBy){
 
         try{
             /*if (origin.isEmpty() || destination.isEmpty() || origin.length()!=3 || destination.length()!=3){
@@ -74,7 +69,7 @@ public class FlightSearchController {
                 return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
             }
             else*/
-                return new ResponseEntity<List<Flights>>(flightSearchService.fetchRequiredFlights(origin,destination), HttpStatus.OK);
+                return new ResponseEntity<List<Flights>>(flightSearchService.fetchRequiredFlights(origin,destination,sortBy), HttpStatus.OK);
         }
         catch (Exception e){
             errorResponse.setMessage(e.getMessage());
@@ -83,10 +78,10 @@ public class FlightSearchController {
     }
 
     @GetMapping(value="/sort")
-    public ResponseEntity<?> sortFlights (@RequestParam(name = "sortParameter", required = true) String sortParameter,
+    public ResponseEntity<?> getSortedFlightView (@RequestParam(name = "sortBy", required = true) String sortBy,
                                            @RequestParam(name= "sortType",required = false) String sortType) {
         try{
-            return new ResponseEntity<List<Flights>>(flightSearchService.sortFlights(sortParameter,sortType), HttpStatus.OK);
+            return new ResponseEntity<List<Flights>>(flightSearchService.sortFlights(sortBy,sortType), HttpStatus.OK);
         }
         catch(Exception e){
             errorResponse.setMessage(e.getMessage());

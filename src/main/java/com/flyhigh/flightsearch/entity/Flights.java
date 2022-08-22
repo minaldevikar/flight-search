@@ -16,13 +16,13 @@ public class Flights {
     private String destination;
     private String departure;
     private String arrival;
-    private String fare;
+    private Integer fare;
 
     public Flights() {
         super();
     }
 
-    public Flights(String id, String origin, String destination, String departure, String arrival, String fare) {
+    public Flights(String id, String origin, String destination, String departure, String arrival, Integer fare) {
         super();
         this.flightId = id;
         this.origin = origin;
@@ -72,11 +72,11 @@ public class Flights {
         this.arrival = arrival;
     }
 
-    public String getFare() {
+    public Integer getFare() {
         return fare;
     }
 
-    public void setFare(String fare) {
+    public void setFare(Integer fare) {
         this.fare = fare;
     }
 

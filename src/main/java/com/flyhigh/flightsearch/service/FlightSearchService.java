@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface FlightSearchService {
 
-    public List<Flights> getAllFlights();
+    public List<Flights> getAllFlights(String field);
 
-    public List<Flights> fetchRequiredFlights(String origin,String destination);
+    public List<Flights> fetchRequiredFlights(String origin,String destination, String sortBy);
 
-    public List<Flights> sortFlights(String sortParameter,String sortType);
+    public List<Flights> sortFlights(String sortBy,String sortType);
 }

@@ -36,7 +36,7 @@ public class DataLoader {
     CommandLineRunner loadFlights(FlightSearchRepo flightRepo) {
         return (args) -> {
             loadFromCsv(resourceLoader, flightsFile,
-                    v -> new Flights(v[0], v[1], v[2], v[3], v[4], v[5]),
+                    v -> new Flights(v[0], v[1], v[2], v[3], v[4], Integer.parseInt(v[5])),
                     flightRepo);
         };
     }
