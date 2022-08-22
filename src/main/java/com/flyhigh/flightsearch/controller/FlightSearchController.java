@@ -2,28 +2,22 @@ package com.flyhigh.flightsearch.controller;
 
 import com.flyhigh.flightsearch.entity.Flights;
 import com.flyhigh.flightsearch.service.FlightSearchService;
-import com.flyhigh.flightsearch.util.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Admin on 8/20/2022.
  */
 @RestController
 @RequestMapping("v1/flights")
-@Validated
 public class FlightSearchController {
 
     private static final Logger logger = LoggerFactory.getLogger(FlightSearchController.class);
@@ -31,66 +25,22 @@ public class FlightSearchController {
     @Autowired
     private FlightSearchService flightSearchService;
 
-    @Autowired
-    private ErrorResponse errorResponse;
-
     @GetMapping()
-    public ResponseEntity<?> getAllFlights(@RequestParam(name = "sortBy", defaultValue = "flightId") String sortBy) {
-        try{
-            return new ResponseEntity<List<Flights>>(flightSearchService.getAllFlights(sortBy), HttpStatus.OK);
-        }
-        catch(Exception e){
-            errorResponse.setMessage(e.getMessage());
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<?> getAllFlightsSortedView(@RequestParam(name = "sortBy", defaultValue = "flightId") String sortBy,
+    @RequestParam(name= "sortType",required = false,defaultValue = "asc") String sortType) {
+        logger.info("Inside getAllFlightsSortedView...sort by: "+sortBy+"and sort type: "+sortType);
+
+            return new ResponseEntity<>(flightSearchService.getAllFlightsSortedView(sortBy,sortType), HttpStatus.OK);
+
     }
 
     @GetMapping(value = "/{origin}/{destination}")
     public ResponseEntity<?> fetchRequiredFlights(
-            @PathVariable()
-            @NotBlank(message="Origin required")
-            @Size(max = 3, message = "Please provide 3 digit airport code")
-            @Pattern(regexp="^[a-zA-Z]*$",message="Acceptable format: a-zA-Z")
-                    String origin,
-            @PathVariable()
-            @NotBlank(message="Destination required")
-            @Size(max = 3, message = "Please provide 3 digit airport code")
-            @Pattern(regexp="^[a-zA-Z]*$",message="Acceptable format: a-zA-Z")
-                    String destination,
-            @RequestParam(name = "sortBy",defaultValue = "xyz") String sortBy){
+            @PathVariable String origin,
+            @PathVariable String destination,
+            @RequestParam(name = "sortBy",defaultValue = "fare") String sortBy){
 
-        try{
-            /*if (origin.isEmpty() || destination.isEmpty() || origin.length()!=3 || destination.length()!=3){
-                errorResponse.setMessage("Please provide 3 digit airport code");
-                return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-            }
-            else if (origin.matches("[a-zA-Z]") || destination.matches("[a-zA-Z]")) {
-                errorResponse.setMessage("Only characters allowed");
-                return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-            }
-            else*/
-                return new ResponseEntity<List<Flights>>(flightSearchService.fetchRequiredFlights(origin,destination,sortBy), HttpStatus.OK);
-        }
-        catch (Exception e){
-            errorResponse.setMessage(e.getMessage());
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-        }
+            return new ResponseEntity<>(flightSearchService.fetchRequiredFlights(origin,destination,sortBy), HttpStatus.OK);
     }
-
-    @GetMapping(value="/sort")
-    public ResponseEntity<?> getSortedFlightView (@RequestParam(name = "sortBy", required = true) String sortBy,
-                                           @RequestParam(name= "sortType",required = false) String sortType) {
-        try{
-            return new ResponseEntity<List<Flights>>(flightSearchService.sortFlights(sortBy,sortType), HttpStatus.OK);
-        }
-        catch(Exception e){
-            errorResponse.setMessage(e.getMessage());
-            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-        }
-        //return flightSearchService.getAllFlights();
-    }
-
-
-
 
 }
