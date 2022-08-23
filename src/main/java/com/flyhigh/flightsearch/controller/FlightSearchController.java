@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class FlightSearchController {
     @Autowired
     private FlightSearchService flightSearchService;
 
-    @GetMapping()
+    @GetMapping(produces= MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllFlightsSortedView(@RequestParam(name = "sortBy", defaultValue = "flightId") String sortBy,
     @RequestParam(name= "sortType",required = false,defaultValue = "asc") String sortType) {
         logger.info("Inside getAllFlightsSortedView...sort by: "+sortBy+"and sort type: "+sortType);
