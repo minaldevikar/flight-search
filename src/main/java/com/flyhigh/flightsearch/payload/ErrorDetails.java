@@ -4,11 +4,13 @@ import java.util.Date;
 
 public class ErrorDetails {
     private Date timestamp;
+    private int statusCode;
     private String message;
     private String details;
 
-    public ErrorDetails(Date timestamp, String message, String details) {
+    public ErrorDetails(Date timestamp, Integer statusCode, String message, String details) {
         this.timestamp = timestamp;
+        this.statusCode = statusCode;
         this.message = message;
         this.details = details;
     }
@@ -24,4 +26,6 @@ public class ErrorDetails {
     public String getDetails() {
         return details;
     }
+    public int getStatusCode() { return statusCode;}
+
 }

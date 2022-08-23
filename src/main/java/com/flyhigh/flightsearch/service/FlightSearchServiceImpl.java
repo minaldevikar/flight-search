@@ -3,7 +3,7 @@ package com.flyhigh.flightsearch.service;
 
 import com.flyhigh.flightsearch.entity.Flights;
 import com.flyhigh.flightsearch.exception.DataNotAvailableException;
-import com.flyhigh.flightsearch.exception.GlobalExceptionHandler;
+import com.flyhigh.flightsearch.exception.EndpointNotDefinedException;
 import com.flyhigh.flightsearch.exception.InvalidDataLengthException;
 import com.flyhigh.flightsearch.repository.FlightSearchRepo;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class FlightSearchServiceImpl implements FlightSearchService{
     public List<Flights> fetchRequiredFlights(String origin, String destination, String sortBy) {
         logger.info("Inside fetchRequiredFlights with origin: " +origin +" and destination: "+destination );
         if(origin.isEmpty() || destination.isEmpty()){
-            throw new NullPointerException("Origin and Destination airport code required.");
+            throw new EndpointNotDefinedException("Origin and Destination airport code required.");
         }
         if(origin.length()!=3 || destination.length()!=3){
             throw new InvalidDataLengthException();
