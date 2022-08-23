@@ -3,6 +3,7 @@ package com.flyhigh.flightsearch.service;
 
 import com.flyhigh.flightsearch.entity.Flights;
 import com.flyhigh.flightsearch.exception.DataNotAvailableException;
+import com.flyhigh.flightsearch.exception.GlobalExceptionHandler;
 import com.flyhigh.flightsearch.exception.InvalidDataLengthException;
 import com.flyhigh.flightsearch.repository.FlightSearchRepo;
 import org.slf4j.Logger;
@@ -10,11 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -39,13 +37,11 @@ public class FlightSearchServiceImpl implements FlightSearchService{
             if(sortType.equals("desc"))
                 flightsList=flightSearchRepo.findAll(Sort.by(sortBy).descending());
         }
-        /*List<Flights> flightsListEuro=flightsList.stream().map(flights -> {flights.getFare().
-        }).collect(Collectors.toList());*/
         return flightsList;
     }
 
     @Override
-    public List<Flights> fetchRequiredFlights(String origin, String destination, String sortBy) throws InvalidDataLengthException{
+    public List<Flights> fetchRequiredFlights(String origin, String destination, String sortBy) {
         logger.info("Inside fetchRequiredFlights with origin: " +origin +" and destination: "+destination );
         if(origin.isEmpty() || destination.isEmpty()){
             throw new NullPointerException("Origin and Destination airport code required.");

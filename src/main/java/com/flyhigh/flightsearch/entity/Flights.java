@@ -2,7 +2,6 @@ package com.flyhigh.flightsearch.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
 
 /**
  * Created by Admin on 8/21/2022.

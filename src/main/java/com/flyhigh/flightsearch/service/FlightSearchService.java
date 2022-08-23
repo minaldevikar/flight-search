@@ -1,10 +1,8 @@
 package com.flyhigh.flightsearch.service;
 
 import com.flyhigh.flightsearch.entity.Flights;
-import com.flyhigh.flightsearch.entity.Flights;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Admin on 8/21/2022.
