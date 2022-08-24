@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class NumAndSplCharNotAllowedException extends RuntimeException {
 
     public NumAndSplCharNotAllowedException() {
-        super("Only character accepted");
+        super("Only character accepted [a-zA-Z]");
     }
 }
