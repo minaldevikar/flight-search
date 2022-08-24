@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Created by Admin on 8/22/2022.
  */
-@ResponseStatus(value= HttpStatus.BAD_REQUEST)
-public class EndpointNotDefinedException extends RuntimeException{
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+public class EndpointNotDefinedException extends RuntimeException {
 
     public EndpointNotDefinedException(String msg) {
         super(msg);

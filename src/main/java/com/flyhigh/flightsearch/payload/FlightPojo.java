@@ -1,17 +1,12 @@
 package com.flyhigh.flightsearch.payload;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-
 /**
  * Created by Admin on 8/21/2022.
  */
-@Entity
+
 public class FlightPojo {
 
-    @Id
     private String flightId;
     private String origin;
     private String destination;

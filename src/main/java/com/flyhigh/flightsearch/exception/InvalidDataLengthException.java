@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Created by Admin on 8/22/2022.
  */
-@ResponseStatus(value= HttpStatus.BAD_REQUEST)
-public class InvalidDataLengthException extends RuntimeException{
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+public class InvalidDataLengthException extends RuntimeException {
 
-    public InvalidDataLengthException(){
+    public InvalidDataLengthException() {
         super("Only 3 characters allowed for airport code");
     }
 

@@ -25,7 +25,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             Exception.class,
             RuntimeException.class
     })
-    @ResponseStatus()
     public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception,
                                                               WebRequest webRequest){
         ErrorDetails errorDetails = new ErrorDetails(new Date(), 400, exception.getMessage(),

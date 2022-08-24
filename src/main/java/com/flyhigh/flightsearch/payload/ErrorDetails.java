@@ -26,6 +26,9 @@ public class ErrorDetails {
     public String getDetails() {
         return details;
     }
-    public int getStatusCode() { return statusCode;}
+
+    public int getStatusCode() {
+        return statusCode;
+    }
 
 }

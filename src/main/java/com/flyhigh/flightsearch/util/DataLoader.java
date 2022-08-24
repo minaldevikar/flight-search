@@ -4,12 +4,6 @@ package com.flyhigh.flightsearch.util;
  * Created by Admin on 8/21/2022.
  */
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.function.Function;
-import java.util.stream.Stream;
-
 import com.flyhigh.flightsearch.entity.Flights;
 import com.flyhigh.flightsearch.repository.FlightSearchRepo;
 import org.slf4j.Logger;
@@ -23,6 +17,13 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
 @Profile("development")
 @Component
 @Transactional
@@ -43,7 +44,7 @@ public class DataLoader {
     }
 
     public static void loadFromCsv(ResourceLoader resourceLoader, String sourceCsvFile,
-                                   Function<String[], Object> objectMapper, CrudRepository repo) {
+                                   Function<String[], Object> objectMapper, CrudRepository repo) throws IOException {
         logger.debug("++++++++++++++ Loading " + sourceCsvFile + " ..........");
 
         Resource resource = resourceLoader.getResource("classpath:" + sourceCsvFile);
@@ -56,12 +57,12 @@ public class DataLoader {
                     Object entity = objectMapper.apply(values);
                     repo.save(entity);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    throw e;
                 }
             });
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
         logger.debug("++++++++++++++ Loading " + sourceCsvFile + " DONE !");
 

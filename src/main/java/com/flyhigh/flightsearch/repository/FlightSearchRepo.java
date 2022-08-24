@@ -12,6 +12,5 @@ import java.util.List;
  */
 @Repository
 public interface FlightSearchRepo extends JpaRepository<Flights, String> {
-
     List<Flights> findByOriginAndDestination(String origin,String destination);
 }

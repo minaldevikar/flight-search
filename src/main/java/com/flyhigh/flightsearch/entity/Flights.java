@@ -34,16 +34,6 @@ public class Flights {
         this.price = price;
     }
 
-    public Flights(String flightId, String origin, String destination, String departure, String arrival, Integer price, String travelTime) {
-        this.flightId = flightId;
-        this.origin = origin;
-        this.destination = destination;
-        this.departure = departure;
-        this.arrival = arrival;
-        this.price = price;
-        this.travelTime = travelTime;
-    }
-
     public String getFlightId() {
         return flightId;
     }
@@ -103,7 +93,6 @@ public class Flights {
     @Override
     public String toString() {
 
-        return "Flight [flightNumber=" + flightId + ", origin=" + origin + ", destination=" + destination + ", departureTime="
-                + departure + ", arrivalTime=" + arrival + ", price in EURO =" + price + "]";
+        return "Flight [flightNumber=" + flightId + ", origin=" + origin + ", destination=" + destination + ", departureTime=" + departure + ", arrivalTime=" + arrival + ", price in EURO =" + price + "]";
     }
 }
