@@ -1,13 +1,13 @@
 ## Flight Search API
 SpringBoot Application that demonstrates REST API Development using Spring MVC, Spring Data JPA using Java 8 features.
 
-### 1. GET /v1/flights?sortBy=fare
+### 1. GET /v1/flights?sortBy=price
   ### Details:
-      This API will dispaly all flights and sort by fare,origin,destination,arrival,departure...
+      This API will dispaly all flights and sort by price,origin,destination,arrival,departure...
       
-### 2. GET /v1/flights/{origin}/{destination}?sortBy=fare&sortType=asc
+### 2. GET /v1/flights/{origin}/{destination}?sortBy=price&sortType=asc
   ### Details:
-      This API will dispaly all flights based on mentioned origin and destination as well as sort results by fare,arrival,departure 
+      This API will dispaly all flights based on mentioned origin and destination as well as sort results by price,arrival,departure 
 			with ascending and descending order.
 
 ### Prerequisites

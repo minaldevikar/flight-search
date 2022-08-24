@@ -1,4 +1,5 @@
-package com.flyhigh.flightsearch.entity;
+package com.flyhigh.flightsearch.payload;
+
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,7 +9,7 @@ import javax.persistence.Transient;
  * Created by Admin on 8/21/2022.
  */
 @Entity
-public class Flights {
+public class FlightPojo {
 
     @Id
     private String flightId;
@@ -16,15 +17,9 @@ public class Flights {
     private String destination;
     private String departure;
     private String arrival;
-    private Integer price;
+    private String price;
 
-    @Transient
-    private String travelTime;
-
-    public Flights() {
-    }
-
-    public Flights(String id, String origin, String destination, String departure, String arrival, Integer price) {
+    public FlightPojo(String id, String origin, String destination, String departure, String arrival, String price) {
         super();
         this.flightId = id;
         this.origin = origin;
@@ -32,16 +27,6 @@ public class Flights {
         this.departure = departure;
         this.arrival = arrival;
         this.price = price;
-    }
-
-    public Flights(String flightId, String origin, String destination, String departure, String arrival, Integer price, String travelTime) {
-        this.flightId = flightId;
-        this.origin = origin;
-        this.destination = destination;
-        this.departure = departure;
-        this.arrival = arrival;
-        this.price = price;
-        this.travelTime = travelTime;
     }
 
     public String getFlightId() {
@@ -84,21 +69,14 @@ public class Flights {
         this.arrival = arrival;
     }
 
-    public Integer getprice() {
+    public String getprice() {
         return price;
     }
 
-    public void setprice(Integer price) {
+    public void setprice(String price) {
         this.price = price;
     }
 
-    public String getTravelTime() {
-        return travelTime;
-    }
-
-    public void setTravelTime(String travelTime) {
-        this.travelTime = travelTime;
-    }
 
     @Override
     public String toString() {
@@ -107,3 +85,4 @@ public class Flights {
                 + departure + ", arrivalTime=" + arrival + ", price in EURO =" + price + "]";
     }
 }
+

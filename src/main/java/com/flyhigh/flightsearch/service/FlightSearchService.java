@@ -1,6 +1,7 @@
 package com.flyhigh.flightsearch.service;
 
 import com.flyhigh.flightsearch.entity.Flights;
+import com.flyhigh.flightsearch.payload.FlightPojo;
 
 import java.util.List;
 
@@ -9,8 +10,8 @@ import java.util.List;
  */
 public interface FlightSearchService {
 
-    public List<Flights> getAllFlightsSortedView(String sortBy,String sortType);
+    public List<FlightPojo> getAllFlightsSortedView(String sortBy, String sortType);
 
-    public List<Flights> fetchRequiredFlights(String origin,String destination, String sortBy);
+    public List<FlightPojo> fetchRequiredFlights(String origin,String destination, String sortBy);
 
 }

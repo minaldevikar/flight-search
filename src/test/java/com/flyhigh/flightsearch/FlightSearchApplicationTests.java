@@ -46,7 +46,7 @@ class FlightSearchApplicationTests {
 		f4.setDestination("toto");
 		f4.setDeparture("06:00");
 		f4.setArrival("14:00");
-		f4.setFare(4);
+		f4.setprice(4);
 
 		flightRepo.save(f1);
 		flightRepo.save(f2);

@@ -18,13 +18,13 @@ import javax.servlet.http.HttpServletRequest;
  * Created by Admin on 8/20/2022.
  */
 @RestController
-@RequestMapping()
 public class FlightSearchController implements ErrorController {
 
     private static final Logger logger = LoggerFactory.getLogger(FlightSearchController.class);
     private final String apiVersion = "/v1/flights";
 
     @Autowired
+
     private FlightSearchService flightSearchService;
 
     @GetMapping(value = {"/error", "/{v1}/*", apiVersion + "/{origin}"})
