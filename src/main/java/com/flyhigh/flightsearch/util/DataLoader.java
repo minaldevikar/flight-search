@@ -38,7 +38,7 @@ public class DataLoader {
     CommandLineRunner loadFlights(FlightSearchRepo flightRepo) {
         return (args) -> {
             loadFromCsv(resourceLoader, flightsFile,
-                    v -> new Flights(v[0], v[1], v[2], v[3], v[4], Integer.parseInt(v[5])),
+                    v -> new Flights(v[0], v[1], v[2], v[3], v[4], Integer.parseInt(v[5]), v[6]),
                     flightRepo);
         };
     }
@@ -53,7 +53,7 @@ public class DataLoader {
             stream.forEach(line -> {
                 logger.debug("++++++++++++++" + line);
                 try {
-                    String[] values = line.split(",");
+                    String[] values = line.split("[, ]");
                     Object entity = objectMapper.apply(values);
                     repo.save(entity);
                 } catch (Exception e) {

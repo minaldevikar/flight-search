@@ -105,7 +105,7 @@ public class FlightSearchServiceImpl implements FlightSearchService {
         List<FlightPojo> flightPojoList = flightsList.stream()
                 .map(flights -> {
                     FlightPojo pojo = new FlightPojo(flights.getFlightId(), flights.getOrigin(),
-                            flights.getDestination(), flights.getArrival(), flights.getDeparture(), flights.getprice().toString() + " EURO");
+                            flights.getDestination(), flights.getArrival(), flights.getDeparture(), flights.getprice().toString() + " "+ flights.getCurrency());
                     return pojo;
                 }).collect(Collectors.toList());
         return flightPojoList;
@@ -120,6 +120,15 @@ public class FlightSearchServiceImpl implements FlightSearchService {
                 = ChronoUnit.MINUTES.between(arrivalTime, departureTime) % 60;
         String timeDiff = hours + ":" + minutes;
         return timeDiff;
+    }
+
+    public static List<Flights> filterByDeparture(List<Flights> flightsList, String sortType){
+
+        flightsList = flightsList.stream().sorted(Comparator.comparing(Flights::getprice)).collect(Collectors.toList());
+        if (!sortType.isEmpty() && sortType.equalsIgnoreCase("desc"))
+            flightsList = flightsList.stream().sorted(Comparator.comparing(Flights::getDeparture).reversed()).collect(Collectors.toList());
+
+        return  flightsList;
     }
 
 }

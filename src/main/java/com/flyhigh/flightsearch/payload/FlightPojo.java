@@ -77,7 +77,7 @@ public class FlightPojo {
     public String toString() {
 
         return "Flight [flightNumber=" + flightId + ", origin=" + origin + ", destination=" + destination + ", departureTime="
-                + departure + ", arrivalTime=" + arrival + ", price in EURO =" + price + "]";
+                + departure + ", arrivalTime=" + arrival + ", price =" + price + "]";
     }
 }
 

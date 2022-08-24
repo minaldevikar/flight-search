@@ -43,8 +43,8 @@ public class FlightSearchServiceImplTest {
     }
 
     public List<Flights> getData(){
-        Flights f1 = new Flights("T101", "MAA", "NAG","11:00","17:00" ,120);
-        Flights f2 = new Flights("T202", "DEL", "BOM","14:00","21:00" ,210);
+        Flights f1 = new Flights("T101", "MAA", "NAG","11:00","17:00" ,120, "EURO");
+        Flights f2 = new Flights("T202", "DEL", "BOM","14:00","21:00" ,210, "EURO");
         List<Flights> flightsList=new ArrayList<>();
         flightsList.add(f1);
         flightsList.add(f2);

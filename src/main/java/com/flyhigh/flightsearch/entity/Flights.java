@@ -17,6 +17,7 @@ public class Flights {
     private String departure;
     private String arrival;
     private Integer price;
+    private String currency;
 
     @Transient
     private String travelTime;
@@ -24,7 +25,7 @@ public class Flights {
     public Flights() {
     }
 
-    public Flights(String id, String origin, String destination, String departure, String arrival, Integer price) {
+    public Flights(String id, String origin, String destination, String departure, String arrival, Integer price, String currency) {
         super();
         this.flightId = id;
         this.origin = origin;
@@ -32,6 +33,7 @@ public class Flights {
         this.departure = departure;
         this.arrival = arrival;
         this.price = price;
+        this.currency= currency;
     }
 
     public String getFlightId() {
@@ -90,9 +92,24 @@ public class Flights {
         this.travelTime = travelTime;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String arrival) {
+        this.currency = currency;
+    }
+
     @Override
     public String toString() {
-
-        return "Flight [flightNumber=" + flightId + ", origin=" + origin + ", destination=" + destination + ", departureTime=" + departure + ", arrivalTime=" + arrival + ", price in EURO =" + price + "]";
+        return "Flights{" +
+                "flightId='" + flightId + '\'' +
+                ", origin='" + origin + '\'' +
+                ", destination='" + destination + '\'' +
+                ", departure='" + departure + '\'' +
+                ", arrival='" + arrival + '\'' +
+                ", price=" + price +
+                ", currency='" + currency + '\'' +
+                '}';
     }
 }

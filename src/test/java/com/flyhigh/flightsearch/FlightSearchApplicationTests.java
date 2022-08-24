@@ -36,9 +36,9 @@ class FlightSearchApplicationTests {
 	@Order(1)
 	@Rollback(value = false)
 	public void LoadTestData() {
-		Flights f1 = new Flights("test1", "abc", "xyz","11:00","17:00" ,1);
-		Flights f2 = new Flights("test2", "abc", "xyz","14:00","21:00" ,2);
-		Flights f3 = new Flights("test3", "gogo", "nono","08:00","13:00" ,3);
+		Flights f1 = new Flights("test1", "abc", "xyz","11:00","17:00" ,1, "EURO");
+		Flights f2 = new Flights("test2", "abc", "xyz","14:00","21:00" ,2, "EURO");
+		Flights f3 = new Flights("test3", "gogo", "nono","08:00","13:00" ,3, "EURO");
 
 		Flights f4 = new Flights();
 		f4.setFlightId("test4");
