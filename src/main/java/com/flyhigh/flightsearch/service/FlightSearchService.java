@@ -12,6 +12,6 @@ public interface FlightSearchService {
 
     public List<FlightPojo> getAllFlightsSortedView(String sortBy, String sortType);
 
-    public List<FlightPojo> fetchRequiredFlights(String origin,String destination, String sortBy);
+    public List<FlightPojo> fetchRequiredFlights(String origin,String destination, String sortBy,String sortType);
 
 }

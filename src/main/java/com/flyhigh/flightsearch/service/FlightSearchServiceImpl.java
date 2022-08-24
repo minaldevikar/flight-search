@@ -57,7 +57,7 @@ public class FlightSearchServiceImpl implements FlightSearchService{
     }
 
     @Override
-    public List<FlightPojo> fetchRequiredFlights(String origin, String destination, String sortBy) {
+    public List<FlightPojo> fetchRequiredFlights(String origin, String destination, String sortBy,String sortType) {
         logger.info("Inside fetchRequiredFlights with origin: " +origin +" and destination: "+destination +"with sort by "+sortBy);
         if(origin.isEmpty() || destination.isEmpty()){
             throw new EndpointNotDefinedException("Origin and Destination airport code required.");
@@ -81,19 +81,30 @@ public class FlightSearchServiceImpl implements FlightSearchService{
         switch (sortBy){
             case "departure":
                 flightsList=flightsList.stream().sorted(Comparator.comparing(Flights::getDeparture)).collect(Collectors.toList());
+                if(!sortType.isEmpty() && sortType.equals("desc"))
+                    flightsList=flightsList.stream().sorted(Comparator.comparing(Flights::getDeparture).reversed()).collect(Collectors.toList());
                  break;
             case "arrival":
                 flightsList=flightsList.stream().sorted(Comparator.comparing(Flights::getArrival)).collect(Collectors.toList());
+                if(!sortType.isEmpty() && sortType.equals("desc"))
+                    flightsList=flightsList.stream().sorted(Comparator.comparing(Flights::getArrival).reversed()).collect(Collectors.toList());
                  break;
             case "price":
                 flightsList=flightsList.stream().sorted(Comparator.comparing(Flights::getprice)).collect(Collectors.toList());
+                if(!sortType.isEmpty() && sortType.equals("desc"))
+                    flightsList=flightsList.stream().sorted(Comparator.comparing(Flights::getprice).reversed()).collect(Collectors.toList());
                 break;
             case "travelTime":
                 flightsList=flightsList.stream().sorted(Comparator.comparing(Flights::getTravelTime)).collect(Collectors.toList());
+                if(!sortType.isEmpty() && sortType.equals("desc"))
+                    flightsList=flightsList.stream().sorted(Comparator.comparing(Flights::getTravelTime).reversed()).collect(Collectors.toList());
                 break;
             default:
                 flightsList=flightsList.stream().sorted(Comparator.comparing(Flights::getFlightId)).collect(Collectors.toList());
+
         }
+
+
         List<FlightPojo> flightPojoList=flightsList.stream()
                 .map(flights -> {
                     FlightPojo pojo=new FlightPojo(flights.getFlightId(),flights.getOrigin(),
@@ -101,6 +112,9 @@ public class FlightSearchServiceImpl implements FlightSearchService{
                     //flights.setTravelTime(getTravelTimeDifference(flights.getArrival(),flights.getDeparture()));
                     return pojo;
                 }).collect(Collectors.toList());
+
+
+
         return  flightPojoList;
     }
 

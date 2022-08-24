@@ -1,6 +1,7 @@
 package com.flyhigh.flightsearch;
 
 import com.flyhigh.flightsearch.entity.Flights;
+import com.flyhigh.flightsearch.payload.FlightPojo;
 import com.flyhigh.flightsearch.repository.FlightSearchRepo;
 import com.flyhigh.flightsearch.service.FlightSearchServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -29,16 +30,16 @@ public class FlightSearchServiceImplTest {
     @Test
     public void getAllFlightsSortedViewTest(){
         when(flightSearchRepo.findAll(Sort.by("origin").ascending())).thenReturn(getData());
-       // List<Flights> flightsList=flightSearchService.getAllFlightsSortedView("origin","asc");
-        //assertEquals(2, flightsList.size());
-        //assertEquals("MAA", flightsList.get(0).getOrigin());
+       List<FlightPojo> flightsList=flightSearchService.getAllFlightsSortedView("origin","asc");
+        assertEquals(2, flightsList.size());
+        assertEquals("MAA", flightsList.get(0).getOrigin());
     }
 
     @Test
     public void fetchRequiredFlightsTest(){
         when(flightSearchRepo.findByOriginAndDestination(Mockito.anyString(),Mockito.anyString())).thenReturn(getData());
-        //List<Flights> flightsList=flightSearchService.fetchRequiredFlights("MAA","NAG","price");
-        //assertEquals("NAG", flightsList.get(0).getDestination());
+        List<FlightPojo> flightsList=flightSearchService.fetchRequiredFlights("MAA","NAG","price","asc");
+        assertEquals("NAG", flightsList.get(0).getDestination());
     }
 
     public List<Flights> getData(){

@@ -44,7 +44,8 @@ public class FlightSearchController implements ErrorController {
     public ResponseEntity<?> fetchRequiredFlights(
             @PathVariable String origin,
             @PathVariable String destination,
-            @RequestParam(name = "sortBy", defaultValue = "arrival") String sortBy) {
-        return new ResponseEntity<>(flightSearchService.fetchRequiredFlights(origin, destination, sortBy), HttpStatus.OK);
+            @RequestParam(name = "sortBy", defaultValue = "arrival") String sortBy,
+            @RequestParam(name = "sortType", required = false, defaultValue = "asc") String sortType) {
+        return new ResponseEntity<>(flightSearchService.fetchRequiredFlights(origin, destination, sortBy,sortType), HttpStatus.OK);
     }
 }
