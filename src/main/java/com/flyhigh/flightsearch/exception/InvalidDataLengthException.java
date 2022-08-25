@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class InvalidDataLengthException extends RuntimeException {
 
     public InvalidDataLengthException() {
-        super("Only 3 characters allowed for airport code");
+        super("3 Letter Origin and Destination airport code required");
     }
 
 }

@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalTime;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -38,7 +39,7 @@ public class DataLoader {
     CommandLineRunner loadFlights(FlightSearchRepo flightRepo) {
         return (args) -> {
             loadFromCsv(resourceLoader, flightsFile,
-                    v -> new Flights(v[0], v[1], v[2], v[3], v[4], Integer.parseInt(v[5]), v[6]),
+                    v -> new Flights(v[0], v[1], v[2], LocalTime.parse(v[3]), LocalTime.parse(v[4]), Integer.parseInt(v[5]), v[6]),
                     flightRepo);
         };
     }

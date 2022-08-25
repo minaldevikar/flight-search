@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +44,8 @@ public class FlightSearchServiceImplTest {
     }
 
     public List<Flights> getData(){
-        Flights f1 = new Flights("T101", "MAA", "NAG","11:00","17:00" ,120, "EURO");
-        Flights f2 = new Flights("T202", "DEL", "BOM","14:00","21:00" ,210, "EURO");
+        Flights f1 = new Flights("T101", "MAA", "NAG", LocalTime.parse("11:00"),LocalTime.parse("17:00") ,120, "EURO");
+        Flights f2 = new Flights("T202", "DEL", "BOM",LocalTime.parse("14:00"),LocalTime.parse("21:00") ,210, "EURO");
         List<Flights> flightsList=new ArrayList<>();
         flightsList.add(f1);
         flightsList.add(f2);

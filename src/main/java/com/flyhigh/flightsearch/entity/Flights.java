@@ -1,8 +1,7 @@
 package com.flyhigh.flightsearch.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import java.time.LocalTime;
 
 /**
  * Created by Admin on 8/21/2022.
@@ -14,18 +13,17 @@ public class Flights {
     private String flightId;
     private String origin;
     private String destination;
-    private String departure;
-    private String arrival;
+    private LocalTime departure;
+    private LocalTime arrival;
     private Integer price;
     private String currency;
-
     @Transient
     private String travelTime;
 
     public Flights() {
     }
 
-    public Flights(String id, String origin, String destination, String departure, String arrival, Integer price, String currency) {
+    public Flights(String id, String origin, String destination, LocalTime departure, LocalTime arrival, Integer price, String currency) {
         super();
         this.flightId = id;
         this.origin = origin;
@@ -60,27 +58,27 @@ public class Flights {
         this.destination = destination;
     }
 
-    public String getDeparture() {
+    public LocalTime getDeparture() {
         return departure;
     }
 
-    public void setDeparture(String departure) {
+    public void setDeparture(LocalTime departure) {
         this.departure = departure;
     }
 
-    public String getArrival() {
+    public LocalTime getArrival() {
         return arrival;
     }
 
-    public void setArrival(String arrival) {
+    public void setArrival(LocalTime arrival) {
         this.arrival = arrival;
     }
 
-    public Integer getprice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setprice(Integer price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -96,7 +94,7 @@ public class Flights {
         return currency;
     }
 
-    public void setCurrency(String arrival) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 

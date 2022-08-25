@@ -49,7 +49,6 @@ public class FlightSearchControllerTest {
                 .andExpect(jsonPath("$", Matchers.hasSize(2)));
     }
 
-
     @Test
     public void fetchRequiredFlightsTest() throws Exception{
         List<FlightPojo> flightsList=getData();

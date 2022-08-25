@@ -48,7 +48,7 @@ public class FlightSearchServiceImpl implements FlightSearchService {
             throw new EndpointNotDefinedException("sortType only accepts {"
                     + StringUtils.join(acceptableSortDirection) + "} provided :[" + sortType + "]");
 
-        //get all the objects and populate the filghtList
+        //get all the objects and populate the flightList
         List<Flights> flightsList = flightSearchRepo.findAll(Sort.by(sortBy).ascending());
         if (isDescending) flightsList = flightSearchRepo.findAll(Sort.by(sortBy).descending());
         if (flightsList.isEmpty()) throw new DataNotAvailableException();
@@ -60,6 +60,7 @@ public class FlightSearchServiceImpl implements FlightSearchService {
     public List<FlightPojo> fetchRequiredFlights(String origin, String destination, String sortBy, String sortType) {
         logger.info("Inside fetchRequiredFlights with origin: [" + origin + "] " +
                 "and destination: [" + destination + "] with sort by [" + sortBy + "]");
+
 
         if (origin.isEmpty() || destination.isEmpty())
             throw new EndpointNotDefinedException("3 Letter Origin and Destination airport code required.");
@@ -87,8 +88,8 @@ public class FlightSearchServiceImpl implements FlightSearchService {
 
         }
 
-        //only the allowed list of sortBy options need to be provied
-        boolean isSortingAllowed = Arrays.stream(acceptableSortListCase2).anyMatch(sortBy::equals);
+        //only the allowed list of sortBy options need to be provided
+        boolean isSortingAllowed = Arrays.stream(acceptableSortListCase2).anyMatch(sortBy::equalsIgnoreCase);
         if (!isSortingAllowed)
             throw new EndpointNotDefinedException("sortBy allowed only on : {" + StringUtils.join(acceptableSortListCase2) + "}");
         switch (sortBy) {
@@ -117,11 +118,11 @@ public class FlightSearchServiceImpl implements FlightSearchService {
             //sortBy price
             case "price":
                 flightsList = flightsList.stream()
-                        .sorted(Comparator.comparing(Flights::getprice))
+                        .sorted(Comparator.comparing(Flights::getPrice))
                         .collect(Collectors.toList());
                 if (isDescending)
                     flightsList = flightsList.stream()
-                            .sorted(Comparator.comparing(Flights::getprice).reversed())
+                            .sorted(Comparator.comparing(Flights::getPrice).reversed())
                             .collect(Collectors.toList());
                 break;
 
@@ -141,31 +142,25 @@ public class FlightSearchServiceImpl implements FlightSearchService {
     }
 
     //function to extract the difference in time from received departure and arrival
-    public static String getTravelTimeDifference(String departure, String arrival) {
-        LocalTime arrivalTime = LocalTime.parse(arrival, DateTimeFormatter.ofPattern("HH:mm"));
-        LocalTime departureTime = LocalTime.parse(departure, DateTimeFormatter.ofPattern("HH:mm"));
-        long hours = ChronoUnit.HOURS.between(arrivalTime, departureTime);
-        long minutes = ChronoUnit.MINUTES.between(arrivalTime, departureTime) % 60;
-        String timeDiff = hours + ":" + minutes;
-        return timeDiff;
+    private String getTravelTimeDifference(LocalTime departure, LocalTime arrival) {
+        long hours = ChronoUnit.HOURS.between(arrival, departure);
+        long minutes = ChronoUnit.MINUTES.between(arrival, departure) % 60;
+        return hours + ":" + minutes;
     }
 
-    /* function to generate the flightPojoList so as
-     * to expose only the required field and the format which is requested
+    /* function to generate the flightPojoList to
+     * expose only the required field and the format which is requested
      */
     private List<FlightPojo> generateFlightPojoList(List<Flights> flightsList) {
         List<FlightPojo> flightPojoList = flightsList.stream()
-                .map(flights -> {
-                    FlightPojo pojo = new FlightPojo(
-                            flights.getFlightId(),
-                            flights.getOrigin(),
-                            flights.getDestination(),
-                            flights.getArrival(),
-                            flights.getDeparture(),
-                            flights.getprice().toString() + " " + flights.getCurrency()
-                    );
-                    return pojo;
-                }).collect(Collectors.toList());
+                .map(flights -> new FlightPojo(
+                        flights.getFlightId(),
+                        flights.getOrigin(),
+                        flights.getDestination(),
+                        String.valueOf(flights.getArrival()),
+                        String.valueOf(flights.getDeparture()),
+                        flights.getPrice().toString() + " " + flights.getCurrency()
+                )).collect(Collectors.toList());
         return flightPojoList;
     }
 }
