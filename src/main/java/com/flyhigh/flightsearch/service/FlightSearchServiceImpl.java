@@ -8,6 +8,7 @@ import com.flyhigh.flightsearch.exception.InvalidDataLengthException;
 import com.flyhigh.flightsearch.exception.NumAndSplCharNotAllowedException;
 import com.flyhigh.flightsearch.payload.FlightPojo;
 import com.flyhigh.flightsearch.repository.FlightSearchRepo;
+import org.apache.tomcat.util.buf.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +30,9 @@ import java.util.stream.Collectors;
 public class FlightSearchServiceImpl implements FlightSearchService {
 
     private static final Logger logger = LoggerFactory.getLogger(FlightSearchServiceImpl.class);
+    private static final String airPortCodeRegex = "^[a-zA-Z]*$";
+    private static final String[] acceptableSortDirection = new String[]{"asc", "desc"};
+    private static final String[] acceptableSortListCase2 = new String[]{"arrival", "departure", "price", "travelTime"};
 
     @Autowired
     FlightSearchRepo flightSearchRepo;
@@ -38,9 +42,11 @@ public class FlightSearchServiceImpl implements FlightSearchService {
     public List<FlightPojo> getAllFlightsSortedView(String sortBy, String sortType) {
         logger.info("Inside getAllFlights...sortBy: " + sortBy + "sortType");
 
+        //only the allowed sorting direction should be allowed
         boolean isDescending = !sortType.isEmpty() && sortType.equalsIgnoreCase("desc");
-        if (!(isDescending || sortType.equalsIgnoreCase("asc")))
-            throw new EndpointNotDefinedException("sortType only accepts {asc/desc}, provided :[" + sortType + "]");
+        if (!(isDescending || Arrays.stream(acceptableSortDirection).anyMatch(sortType::equalsIgnoreCase)))
+            throw new EndpointNotDefinedException("sortType only accepts {"
+                    + StringUtils.join(acceptableSortDirection) + "} provided :[" + sortType + "]");
 
         //get all the objects and populate the filghtList
         List<Flights> flightsList = flightSearchRepo.findAll(Sort.by(sortBy).ascending());
@@ -52,17 +58,21 @@ public class FlightSearchServiceImpl implements FlightSearchService {
     //function to fetch flights on the basis of origin and destination
     @Override
     public List<FlightPojo> fetchRequiredFlights(String origin, String destination, String sortBy, String sortType) {
-        logger.info("Inside fetchRequiredFlights with origin: " + origin + " and destination: " + destination + "with sort by " + sortBy);
+        logger.info("Inside fetchRequiredFlights with origin: [" + origin + "] " +
+                "and destination: [" + destination + "] with sort by [" + sortBy + "]");
 
         if (origin.isEmpty() || destination.isEmpty())
             throw new EndpointNotDefinedException("3 Letter Origin and Destination airport code required.");
-        if (!origin.matches("^[a-zA-Z]*$") || !destination.matches("^[a-zA-Z]*$"))
+        if (!origin.matches(airPortCodeRegex) || !destination.matches(airPortCodeRegex))
             throw new NumAndSplCharNotAllowedException();
         if (origin.length() != 3 || destination.length() != 3)
             throw new InvalidDataLengthException();
+
+        //only the allowed sorting direction should be allowed
         boolean isDescending = !sortType.isEmpty() && sortType.equalsIgnoreCase("desc");
-        if (!(isDescending || sortType.equalsIgnoreCase("asc")))
-            throw new EndpointNotDefinedException("sortType only accepts {asc/desc}, provided :[" + sortType + "]");
+        if (!(isDescending || Arrays.stream(acceptableSortDirection).anyMatch(sortType::equalsIgnoreCase)))
+            throw new EndpointNotDefinedException("sortType only accepts {"
+                    + StringUtils.join(acceptableSortDirection) + "} provided :[" + sortType + "]");
 
         List<Flights> flightsList = flightSearchRepo.findByOriginAndDestination(origin.toUpperCase(), destination.toUpperCase());
         if (flightsList.isEmpty())
@@ -77,6 +87,10 @@ public class FlightSearchServiceImpl implements FlightSearchService {
 
         }
 
+        //only the allowed list of sortBy options need to be provied
+        boolean isSortingAllowed = Arrays.stream(acceptableSortListCase2).anyMatch(sortBy::equals);
+        if (!isSortingAllowed)
+            throw new EndpointNotDefinedException("sortBy allowed only on : {" + StringUtils.join(acceptableSortListCase2) + "}");
         switch (sortBy) {
             //sortBy departure
             case "departure":
@@ -121,11 +135,6 @@ public class FlightSearchServiceImpl implements FlightSearchService {
                             .sorted(Comparator.comparing(Flights::getTravelTime).reversed())
                             .collect(Collectors.toList());
                 break;
-            default:
-                flightsList = flightsList.stream()
-                        .sorted(Comparator.comparing(Flights::getFlightId))
-                        .collect(Collectors.toList());
-
         }
 
         return generateFlightPojoList(flightsList);

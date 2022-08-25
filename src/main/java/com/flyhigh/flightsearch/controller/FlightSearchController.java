@@ -24,7 +24,7 @@ public class FlightSearchController {
     private FlightSearchService flightSearchService;
 
     //Use case - 1: User can be able to find list of flights from Origin - Destination
-    @GetMapping(value = apiVersion + "/{origin}/{destination}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = { apiVersion + "/{origin}", apiVersion + "/{origin}/{destination}"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> fetchRequiredFlights(
             @PathVariable String origin,
             @PathVariable String destination,
@@ -43,7 +43,7 @@ public class FlightSearchController {
     }
 
 
-    @GetMapping(value = {"/error", "/{v1}/*", apiVersion + "/{origin}"})
+    @GetMapping(value = {"/error", "/{v1}/*"})
     public ResponseEntity<?> endPointNotDefined() {
         logger.info("Inside /error");
         throw new EndpointNotDefinedException();
