@@ -26,7 +26,7 @@ SpringBoot Application that demonstrates REST API Development using Spring MVC, 
 
 #### Clone this repo into your local:
 ```
-git clone https://sameerean@bitbucket.org/sameerean/flight-booking.git
+git clone https://github.com/minaldevikar/flight-search.git
 ```
 
 ####  Build using maven
