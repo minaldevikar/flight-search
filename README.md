@@ -42,4 +42,4 @@ mvn spring-boot:run
 ## Database
 This application is using H2 in-memory database, which (database as well as data) will be removed from memory when the application goes down.
 While the application is running, you can access the [H2 Console](http://localhost:8085/console) if you want to see the data outside the application.
-You can connect to the DB using the JDBC URL: 'jdbc:h2:mem:flight-booking' and user 'minal' with empty password. 
+You can connect to the DB using the JDBC URL: 'jdbc:h2:mem:flight-booking' and user 'minal' with empty password.. 
